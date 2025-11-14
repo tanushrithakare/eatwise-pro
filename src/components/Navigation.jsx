@@ -1,42 +1,26 @@
 import React from 'react';
-import { Apple } from 'lucide-react';
 
-const WelcomeScreen = ({ navigateTo }) => {
+const Navigation = ({ activeTab, setActiveTab }) => {
+  const tabs = [
+    { key: 'home', label: 'Home' },
+    { key: 'progress', label: 'Progress' },
+    { key: 'recipes', label: 'Recipes' },
+  ];
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-6">
-      <div className="bg-white rounded-full p-8 mb-8 shadow-2xl">
-        <Apple size={64} className="text-emerald-600" strokeWidth={2.5} />
-      </div>
-      
-      <h1 className="text-5xl font-bold text-white mb-4 text-center">
-        Eatwise Pro
-      </h1>
-      
-      <p className="text-xl text-white text-center mb-12 max-w-md opacity-90">
-        Your personal journey to health, nutrition, and wellness starts here
-      </p>
-      
-      <div className="w-full max-w-md space-y-4">
+    <nav className="flex justify-around p-4 bg-gray-100 shadow-inner">
+      {tabs.map(tab => (
         <button
-          onClick={() => navigateTo('signup')}
-          className="w-full bg-white text-emerald-600 py-4 rounded-2xl font-semibold text-lg shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all"
+          key={tab.key}
+          onClick={() => setActiveTab(tab.key)}
+          className={`py-2 px-4 rounded-lg font-semibold transition-colors
+            ${activeTab === tab.key ? 'bg-emerald-600 text-white' : 'text-gray-700 hover:bg-gray-200'}`}
         >
-          Get Started
+          {tab.label}
         </button>
-        
-        <button
-          onClick={() => navigateTo('login')}
-          className="w-full bg-transparent border-2 border-white text-white py-4 rounded-2xl font-semibold text-lg hover:bg-white hover:text-emerald-600 transition-all"
-        >
-          Sign In
-        </button>
-      </div>
-      
-      <p className="text-white text-sm mt-8 opacity-75">
-        Join 50,000+ people on their health journey
-      </p>
-    </div>
+      ))}
+    </nav>
   );
 };
 
-export default WelcomeScreen;
+export default Navigation;

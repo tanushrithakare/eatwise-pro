@@ -7,9 +7,9 @@ const LoginScreen = ({ navigateTo }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // Simple validation
+
     if (email && password) {
-      navigateTo('dashboard');
+      navigateTo('dashboard'); // redirect after login
     } else {
       alert('Please enter both email and password');
     }

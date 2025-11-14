@@ -2,7 +2,19 @@ import React from 'react';
 import { Scale, Target, Flame } from 'lucide-react';
 import { goals } from '../data/goals';
 
-const BMIScreen = ({ setCurrentScreen, userData, bmiData }) => {
+const BMIScreen = ({ setCurrentScreen, userData }) => {
+  if (!userData) return null;
+
+  const bmi = userData.bmi;
+  const goalObj = goals.find(g => g.id === userData.goal);
+
+  const getBMIStatus = (bmi) => {
+    if (bmi < 18.5) return 'Underweight';
+    if (bmi < 25) return 'Normal';
+    if (bmi < 30) return 'Overweight';
+    return 'Obese';
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 p-4 flex items-center justify-center">
       <div className="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-lg">
@@ -15,23 +27,11 @@ const BMIScreen = ({ setCurrentScreen, userData, bmiData }) => {
 
         <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8 mb-6">
           <div className="text-center">
-            <div className={`text-6xl font-bold ${bmiData?.color} mb-2`}>
-              {bmiData?.bmi}
+            <div className="text-6xl font-bold text-green-600 mb-2">
+              {bmi}
             </div>
             <div className="text-xl font-semibold text-gray-700 mb-4">
-              {bmiData?.category}
-            </div>
-            <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-green-500 transition-all duration-1000"
-                style={{ width: `${Math.min((bmiData?.bmi / 40) * 100, 100)}%` }}
-              />
-            </div>
-            <div className="flex justify-between text-xs text-gray-600 mt-2">
-              <span>18.5</span>
-              <span>25</span>
-              <span>30</span>
-              <span>40</span>
+              {getBMIStatus(bmi)}
             </div>
           </div>
         </div>
@@ -43,12 +43,12 @@ const BMIScreen = ({ setCurrentScreen, userData, bmiData }) => {
               <div>
                 <div className="font-semibold text-gray-800">Your Goal</div>
                 <div className="text-sm text-gray-600">
-                  {goals.find(g => g.id === userData.goal)?.label}
+                  {goalObj?.label}
                 </div>
               </div>
             </div>
           </div>
-          
+
           <div className="bg-purple-50 rounded-xl p-4">
             <div className="flex items-center gap-3">
               <Flame className="w-6 h-6 text-purple-600" />
@@ -64,11 +64,12 @@ const BMIScreen = ({ setCurrentScreen, userData, bmiData }) => {
         </div>
 
         <button
-          onClick={() => setCurrentScreen('dashboard')}
-          className="w-full bg-green-500 text-white py-4 rounded-xl font-semibold hover:bg-green-600 transition"
-        >
-          Continue to Dashboard
-        </button>
+  onClick={() => setCurrentScreen('dashboard')}
+  className="w-full bg-green-500 text-white py-4 rounded-xl font-semibold hover:bg-green-600 transition"
+>
+  Continue to Dashboard
+</button>
+
       </div>
     </div>
   );
